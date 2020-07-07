@@ -11,7 +11,10 @@ node_ip=$(kubectl get nodes -o jsonpath={.items[0].status.addresses[?\(@.type==\
 echo "$node_ip charmuseum.k8s.poc" | tee -a /etc/hosts
 
 # Add temporary repository required wait for temporary pod
-kubectl wait --for=condition=ready pod -l app=temporary-chartmuseum
+while [[ $(kubectl get pods -l app=temporary-chartmuseum -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; 
+do 
+  echo "waiting for pod" && sleep 1; 
+done
 helm repo add temporary http://charmuseum.k8s.poc:30068/
 
 # Install argo from 
