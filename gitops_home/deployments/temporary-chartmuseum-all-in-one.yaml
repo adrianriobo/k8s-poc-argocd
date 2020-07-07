@@ -1,0 +1,45 @@
+## This requires to have the image accesible
+## kind load docker-image temporary-chartmuseum:1.0 --name k8s-poc
+## Service can be accessed using the node ip: kubectl get node -o wide
+## and curl http://$NODE_IP:$NODEPORT(30068)/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: temporary-chartmuseum
+  namespace: default
+  annotations:
+  labels:
+    app: temporary-chartmuseum
+spec:
+  type: NodePort
+  selector:
+    app: temporary-chartmuseum
+  ports:
+    -
+      name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 30068
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temporary-chartmuseum
+  labels:
+    app: temporary-chartmuseum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temporary-chartmuseum
+  template:
+    metadata:
+      labels:
+        app: temporary-chartmuseum
+    spec:
+      containers:
+      - name: temporary-chartmuseum
+        image: temporary-chartmuseum:1.0
+        ports:
+        - containerPort: 8080
