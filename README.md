@@ -7,5 +7,5 @@ PoC for gitops approach based on argocd
 docker run -d --name k8s-poc-argocd \
            -v /var/run/docker.sock:/var/run/docker.sock \
            --network=host \
-           adrianriobo/k8s-poc-argocd:1.6.1
+           adrianriobo/k8s-poc-argocd:1.5.4
 ```

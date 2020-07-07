@@ -1,0 +1,49 @@
+global:
+  ingress:
+    configureCertmanager: false
+    enabled: false
+    tls:
+      #enabled: false
+      secretName: gitlab-tls
+  hosts:
+    domain: localhost
+    https: true
+    externalIP:
+    gitlab:
+      name: localhost
+      https: true
+gitlab:
+  #required by webservice
+  migrations:
+    enabled: true
+  #new version of unicorn
+  webservice:
+    enabled: true
+  sidekiq:
+    enabled: false
+#   gitaly:
+#     enabled: false
+  gitlab-shell:
+    enabled: true
+gitlab-runner:
+  install: false
+registry:
+   enabled: false
+prometheus:
+  install: false
+#nginx-ingress:
+#  enabled: false
+nginx-ingress:
+  controller:
+    service:
+      type: NodePort
+      nodePorts:
+        https:  30443
+certmanager:
+  install: false
+upgradeCheck:
+  enabled: false
+#shared-secrets:
+  #enabled: false
+# Istio support
+#https://gitlab.com/gitlab-org/charts/gitlab/-/issues/743

@@ -18,7 +18,14 @@ done
 helm repo add temporary http://charmuseum.k8s.poc:30068/
 
 # Install argo from 
-helm install -f /opt/gitops/charts/argocd-values.yaml argocd temporary/argo-cd
+helm install -f /opt/gitops/charts/argocd/argocd-values.yaml argocd temporary/argo-cd
+
+# Install gitlab from
+kubectl create secret tls gitlab-tls \
+        --cert=/opt/gitops/charts/gitlab/gitlab.crt \
+        --key=/opt/gitops/charts/gitlab/gitlab.key
+
+helm install -f /opt/gitops/charts/gitlab/gitlab-values.yaml gitlab temporary/gitlab
 
 mkdir -p logs
 kind --name k8s-poc export logs logs
